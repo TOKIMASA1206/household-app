@@ -5,12 +5,13 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import Grid from '@mui/material/Grid';
 
+
 const MonthlySummary = () => {
   return (
     <Grid container spacing={{ xs: 1, sm: 2 }} mb={2}>
       {/* 収入 */}
       <Grid size={{ xs:4 }} display={"flex"} flexDirection={"column"}>
-        <Card sx={{ bgcolor: '#388e3c', color: 'white', borderRadius: '10px' }}>
+        <Card sx={{ bgcolor: (theme) => theme.palette.incomeColor.main, color: 'white', borderRadius: '10px' }}>
           <CardContent sx={{ textAlign: 'center' }}>
             <Stack direction="row" spacing={1} alignItems="center">
               <ArrowUpwardIcon sx={{ fontSize: '2rem' }} />
@@ -33,7 +34,7 @@ const MonthlySummary = () => {
 
       {/* 支出 */}
       <Grid size={{ xs:4 }} display={"flex"} flexDirection={"column"}>
-        <Card sx={{ bgcolor: '#d32f2f', color: 'white', borderRadius: '10px' }}>
+        <Card sx={{ bgcolor: (theme) => theme.palette.expenseColor.main, color: 'white', borderRadius: '10px' }}>
           <CardContent sx={{ textAlign: 'center' }}>
             <Stack direction="row" spacing={1} alignItems="center">
               <ArrowDownwardIcon sx={{ fontSize: '2rem' }} />
@@ -56,7 +57,7 @@ const MonthlySummary = () => {
 
       {/* 残高 */}
       <Grid size={{ xs:4 }} display={"flex"} flexDirection={"column"}>
-        <Card sx={{ bgcolor: '#1976d2', color: 'white', borderRadius: '10px' }}>
+        <Card sx={{ bgcolor: (theme) => theme.palette.balanceColor.main, color: 'white', borderRadius: '10px' }}>
           <CardContent sx={{ textAlign: 'center' }}>
             <Stack direction="row" spacing={1} alignItems="center">
               <AccountBalanceIcon sx={{ fontSize: '2rem' }} />
