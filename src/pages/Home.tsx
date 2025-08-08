@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import React, { use, useState } from 'react'
+import React, { useState } from 'react'
 import MonthlySummary from '../components/MonthlySummary'
 import Calendar from '../components/Calendar'
 import TransactionMenu from '../components/TransactionMenu'
