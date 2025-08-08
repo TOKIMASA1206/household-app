@@ -1,4 +1,3 @@
-import { start } from "repl";
 
 export type TransactionType = 'income' | 'expense';
 export type IncomeCategory = '給与' | '副収入' | 'お小遣い' | 'その他';
