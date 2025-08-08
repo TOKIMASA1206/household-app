@@ -1,0 +1,47 @@
+/* イベントのスタイル */
+.fc-h-event {
+  background-color: transparent; /* 背景を透明にする */
+  border: none;                  /* 枠線をなくす */
+  text-align: right;             /* テキストを右寄せにする */
+  pointer-events: none;          /* ユーザー操作を無効化する（クリックなどのイベントを無効にする） */
+}
+
+/* カレンダーの日付セルの背景色 */
+.fc-daygrid-body,
+.fc-day {
+  background-color: white;       /* カレンダーのセル背景を白にする */
+}
+
+/* カレンダーの曜日ヘッダーの背景と文字色 */
+.fc-col-header-cell {
+  background-color: #42a5f5;     /* 背景色：青（Googleブルー） */
+  color: white;                  /* 文字色：白 */
+}
+
+/* 各日付セルの最小の高さ */
+.fc .fc-daygrid-day-frame {
+  height: 100%;                  /* 高さを親要素いっぱいに広げる */
+  min-height: 100px;             /* 最低でも100pxの高さを確保する */
+}
+
+/* 金額の表示（収支など）を1行で省略表示するスタイル */
+.money {
+  white-space: nowrap;           /* 折り返しをしない */
+  overflow: hidden;              /* はみ出した部分を隠す */
+  text-overflow: ellipsis;       /* 省略記号（…）で表す */
+}
+
+/* 収入の文字色 */
+#event-income {
+  color: #2196f3;                /* 青系の色 */
+}
+
+/* 支出の文字色 */
+#event-expense {
+  color: #f44336;                /* 赤系の色 */
+}
+
+/* 収支差額（バランス）の文字色 */
+#event-balance {
+  color: #4caf50;                /* 緑系の色 */
+}
