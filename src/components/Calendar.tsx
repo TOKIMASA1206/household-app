@@ -1,5 +1,4 @@
 import FullCalendar from '@fullcalendar/react'
-import React from 'react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import jaLocal from '@fullcalendar/core/locales/ja' // 日本語ロケールをインポート
 import "../calendar.css" // カレンダーのスタイルをインポート
@@ -8,15 +7,29 @@ import { Balance, CalendarContent, Transaction } from '../types/index'
 import { calculateDailyBalances } from '../utils/financeCalculations'
 import { formatCurrency } from '../utils/formatting'
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
+import { useTheme } from '@mui/material/styles';
+import { isSameMonth } from 'date-fns'
+// import theme from '../theme/theme'
+
 
 interface CalendarProps {
   monthlyTransactions: Transaction[];
   setCurrentMonth: React.Dispatch<React.SetStateAction<Date>>;
   setCurrentDay: React.Dispatch<React.SetStateAction<string>>;
+  currentDay: string;
+  today: string;
 }
 
-const Calendar = ({monthlyTransactions, setCurrentMonth, setCurrentDay}:CalendarProps) => {
+const Calendar = ({monthlyTransactions, setCurrentMonth, setCurrentDay, currentDay, today}:CalendarProps) => {
+  const theme = useTheme();
   const dailyBalances = calculateDailyBalances(monthlyTransactions);
+
+  // 選択した日付に背景色をつけるイベント関数
+  const backGroundEvent = {
+    start: currentDay,
+    display: 'background',
+    backgroundColor: theme.palette.incomeColor.light // 背景色を指定
+  }
 
   // FullCalendarのイベントを生成する関数
   const createCalendarEvents = (dailyBalances: Record<string, Balance>):CalendarContent[] => {
@@ -50,7 +63,12 @@ const Calendar = ({monthlyTransactions, setCurrentMonth, setCurrentDay}:Calendar
   }
 
   const handleDateSet = (datesetInfo: DatesSetArg) => {
-    setCurrentMonth(datesetInfo.view.currentStart);
+    const currentMonth = datesetInfo.view.currentStart;
+    setCurrentMonth(currentMonth);
+    const todayDate = new Date(); // 今日の日付を取得
+    if (isSameMonth(todayDate, currentMonth)) {
+      setCurrentDay(today);
+    };
   }
 
   const handleDateClick = (dateClickInfo: DateClickArg) => {
@@ -62,7 +80,7 @@ const Calendar = ({monthlyTransactions, setCurrentMonth, setCurrentDay}:Calendar
       locale={jaLocal} // 日本語ロケールを指定
       plugins={[dayGridPlugin, interactionPlugin]}
       initialView='dayGridMonth'
-      events={calendarEvent}
+      events={[...calendarEvent, backGroundEvent]} // イベントを設定
       eventContent={renderEventContent}
       datesSet={handleDateSet}
       dateClick={handleDateClick}
