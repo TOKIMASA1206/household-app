@@ -20,13 +20,11 @@ function App() {
 
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  console.log("currentMonth", currentMonth);
 
   useEffect(() => {
     const fetchTransactions = async() => {
       try {
         const querySnapshot = await getDocs(collection(db, 'Transactions'));
-        console.log(querySnapshot);
         const transactionsData =querySnapshot.docs.map((doc) => {
           // doc.data() is never undefined for query doc snapshots
           // console.log(doc.id, " => ", doc.data());
@@ -36,7 +34,6 @@ function App() {
           } as Transaction //型アサーション
         });
 
-        console.log("transactionsData", transactionsData);
         setTransactions(transactionsData);
       } catch (error) {
         if (isFirestoreErroe(error)) {
@@ -53,7 +50,6 @@ function App() {
     return transaction.date.startsWith(formatMonth(currentMonth));
   })
 
-  console.log("monthlyTransactions", monthlyTransactions);
 
   return (
     <ThemeProvider theme={theme}>

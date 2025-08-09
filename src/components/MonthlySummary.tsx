@@ -12,7 +12,7 @@ interface MonthlySummaryProps {
 }
 
 const MonthlySummary = ({monthlyTransactions}: MonthlySummaryProps) => {
-    console.log("monthlyTransactions", monthlyTransactions);
+  // 月ごとの収入、支出、残高を計算
     const {income, expense, balance} = financeCalculations(monthlyTransactions);
 
   return (

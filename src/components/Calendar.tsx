@@ -9,6 +9,7 @@ import { formatCurrency } from '../utils/formatting'
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import { useTheme } from '@mui/material/styles';
 import { isSameMonth } from 'date-fns'
+import { useCallback, useMemo } from 'react'
 // import theme from '../theme/theme'
 
 
@@ -22,14 +23,20 @@ interface CalendarProps {
 
 const Calendar = ({monthlyTransactions, setCurrentMonth, setCurrentDay, currentDay, today}:CalendarProps) => {
   const theme = useTheme();
-  const dailyBalances = calculateDailyBalances(monthlyTransactions);
+  const dailyBalances = useMemo(() => {
+    // console.log("✅ calculateDailyBalances 実行");
+    return calculateDailyBalances(monthlyTransactions);
+  }, [monthlyTransactions]);
 
   // 選択した日付に背景色をつけるイベント関数
-  const backGroundEvent = {
-    start: currentDay,
-    display: 'background',
-    backgroundColor: theme.palette.incomeColor.light // 背景色を指定
-  }
+  const backGroundEvent = useMemo(() => {
+    // console.log("✅ backGroundEvent 再生成");
+    return {
+      start: currentDay,
+      display: 'background',
+      backgroundColor: theme.palette.incomeColor.light
+    };
+  }, [currentDay, theme]);
 
   // FullCalendarのイベントを生成する関数
   const createCalendarEvents = (dailyBalances: Record<string, Balance>):CalendarContent[] => {
@@ -44,7 +51,10 @@ const Calendar = ({monthlyTransactions, setCurrentMonth, setCurrentDay, currentD
     });
   };
 
-  const calendarEvent = createCalendarEvents(dailyBalances)
+  const calendarEvent = useMemo(() => {
+    // console.log("✅ createCalendarEvents 実行");
+    return createCalendarEvents(dailyBalances);
+  }, [dailyBalances]); 
 
   const renderEventContent = (eventInfo: EventContentArg) => {
     return (
@@ -62,18 +72,20 @@ const Calendar = ({monthlyTransactions, setCurrentMonth, setCurrentDay, currentD
     )
   }
 
-  const handleDateSet = (datesetInfo: DatesSetArg) => {
+  const handleDateSet = useCallback((datesetInfo: DatesSetArg) => {
+    // console.log("✅ handleDateSet 関数呼び出し");
     const currentMonth = datesetInfo.view.currentStart;
     setCurrentMonth(currentMonth);
-    const todayDate = new Date(); // 今日の日付を取得
+    const todayDate = new Date();
     if (isSameMonth(todayDate, currentMonth)) {
       setCurrentDay(today);
-    };
-  }
+    }
+  }, [setCurrentMonth, setCurrentDay, today]);
 
-  const handleDateClick = (dateClickInfo: DateClickArg) => {
+  const handleDateClick = useCallback((dateClickInfo: DateClickArg) => {
+    // console.log("✅ handleDateClick 関数呼び出し");
     setCurrentDay(dateClickInfo.dateStr);
-  }
+  }, [setCurrentDay]);
 
   return (
     <FullCalendar
